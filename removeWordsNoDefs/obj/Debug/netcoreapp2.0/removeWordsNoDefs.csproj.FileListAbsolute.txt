@@ -1,0 +1,11 @@
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\bin\Debug\netcoreapp2.0\removeWordsNoDefs.deps.json
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\bin\Debug\netcoreapp2.0\removeWordsNoDefs.runtimeconfig.json
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\bin\Debug\netcoreapp2.0\removeWordsNoDefs.runtimeconfig.dev.json
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\bin\Debug\netcoreapp2.0\removeWordsNoDefs.dll
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\bin\Debug\netcoreapp2.0\removeWordsNoDefs.pdb
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\obj\Debug\netcoreapp2.0\removeWordsNoDefs.csprojResolveAssemblyReference.cache
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\obj\Debug\netcoreapp2.0\removeWordsNoDefs.csproj.CoreCompileInputs.cache
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\obj\Debug\netcoreapp2.0\removeWordsNoDefs.AssemblyInfoInputs.cache
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\obj\Debug\netcoreapp2.0\removeWordsNoDefs.AssemblyInfo.cs
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\obj\Debug\netcoreapp2.0\removeWordsNoDefs.dll
+C:\Users\alexi\source\repos\removeWordsNoDefs\removeWordsNoDefs\obj\Debug\netcoreapp2.0\removeWordsNoDefs.pdb
