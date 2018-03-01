@@ -31,22 +31,30 @@ namespace removeWordsNoDefs
                 Console.WriteLine(word + " " + ++cpt + "/" + numberOfLinesCommon);
                 var words = await RequestDefinitionsAsync(word);
                 var freq = await ResquestFrequencyAsync(word);
-                if (    words[0].Defs != null)
+                if (words.Count != 0)
                 {
-                    if(freq >= 4)
+                    if(words[0].Defs != null)
                     {
-                        sw_common.WriteLine(word);
-                        Console.WriteLine("written in common");
+
+                        if (freq >= 4)
+                        {
+                            sw_common.WriteLine(word);
+                            Console.WriteLine("written in common");
+                        }
+                        else
+                        {
+                            sw_uncommon.WriteLine(word);
+                            Console.WriteLine("written in uncommon");
+                        }
                     }
                     else
                     {
-                        sw_uncommon.WriteLine(word);
-                        Console.WriteLine("written in uncommon");
+                        Console.WriteLine("not written - no defs");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("not written - no defs");
+                    Console.WriteLine("not written - doesnt exist");
                 }
 
             }
@@ -77,6 +85,10 @@ namespace removeWordsNoDefs
 
             var streamTask = client.GetStreamAsync("https://api.datamuse.com/words?sp=" + word + "&md=f");
             var words = serializer.ReadObject(await streamTask) as List<Freq>;
+            if(words.Count == 0)
+            {
+                return 0;
+            }
             return float.Parse(words[0].Tags[0].Substring(2));
         }
     }
