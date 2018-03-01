@@ -14,58 +14,45 @@ namespace removeWordsNoDefs
         private static readonly HttpClient client = new HttpClient();
         static async Task Main(string[] args)
         {
-            StreamReader sr_common = new StreamReader(@"C:\Users\alexi\Desktop\words\common_words.txt");
-            StreamReader sr_uncommon = new StreamReader(@"C:\Users\alexi\Desktop\words\uncommon_words.txt");
+            StreamReader sr = new StreamReader(@"C:\Users\alexi\Desktop\words\englishWords.txt");
 
-            var numberOfLinesCommon = new StreamReader(@"C:\Users\alexi\Desktop\words\common_words.txt")
-                                .ReadToEnd().Split("\n").Count();
-            var numberOfLinesUncommon = new StreamReader(@"C:\Users\alexi\Desktop\words\uncommon_words.txt")
+            var numberOfLinesCommon = new StreamReader(@"C:\Users\alexi\Desktop\words\englishWords.txt")
                                 .ReadToEnd().Split("\n").Count();
 
-            int cptCommon = 0;
-            int cptUncommon = 0;
+            int cpt = 0;
 
             StreamWriter sw_common = new StreamWriter(@"C:\Users\alexi\Desktop\words\new_common_words.txt");
             StreamWriter sw_uncommon = new StreamWriter(@"C:\Users\alexi\Desktop\words\new_uncommon_words.txt");
 
             //for (int i = 0; i < 6; i++)
-            while (!sr_common.EndOfStream)
+            while (!sr.EndOfStream)
             {
-                string word = sr_common.ReadLine();
-                Console.WriteLine(word + " " + ++cptCommon + "/" + numberOfLinesCommon);
-                var defs = await RequestDefinitionsAsync(word);
-                if (defs[0].Defs != null)
+                string word = sr.ReadLine();
+                Console.WriteLine(word + " " + ++cpt + "/" + numberOfLinesCommon);
+                var words = await RequestDefinitionsAsync(word);
+                var freq = await ResquestFrequencyAsync(word);
+                if (    words[0].Defs != null)
                 {
-                    sw_common.WriteLine(word);
-                    Console.WriteLine("written");
+                    if(freq >= 4)
+                    {
+                        sw_common.WriteLine(word);
+                        Console.WriteLine("written in common");
+                    }
+                    else
+                    {
+                        sw_uncommon.WriteLine(word);
+                        Console.WriteLine("written in uncommon");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("not written - no defs");
                 }
 
             }
             sw_common.Close();
-            sr_common.Close();
-
-            Console.WriteLine("******************* uncommon file ***********************");
-            Console.ReadLine();
-
-            while (!sr_uncommon.EndOfStream)
-            {
-                string word = sr_uncommon.ReadLine();
-                Console.WriteLine(word + " " + ++cptUncommon + "/" + numberOfLinesUncommon);
-                var defs = await RequestDefinitionsAsync(word);
-                if (defs[0].Defs != null)
-                {
-                    sw_uncommon.WriteLine(word);
-                    Console.WriteLine("written");
-                }
-                else
-                {
-                    Console.WriteLine("rejected");
-                }
-
-            }
-
             sw_uncommon.Close();
-            sr_uncommon.Close();
+            sr.Close();
         }
 
         private static async Task<List<WordInfo>> RequestDefinitionsAsync(string word)
@@ -79,6 +66,18 @@ namespace removeWordsNoDefs
             var streamTask = client.GetStreamAsync("https://api.datamuse.com/words?sp=" + word + "&md=d");
             var words = serializer.ReadObject(await streamTask) as List<WordInfo>;
             return words;
+        }
+        private static async Task<float> ResquestFrequencyAsync(string word)
+        {
+            var serializer = new DataContractJsonSerializer(typeof(List<Freq>));
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var streamTask = client.GetStreamAsync("https://api.datamuse.com/words?sp=" + word + "&md=f");
+            var words = serializer.ReadObject(await streamTask) as List<Freq>;
+            return float.Parse(words[0].Tags[0].Substring(2));
         }
     }
 }
